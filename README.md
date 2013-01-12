@@ -31,21 +31,46 @@ Evidence: [`src/Support/InertiaAdapterRegistry.php`](src/Support/InertiaAdapterR
 
 ## Screens And Workflow
 
-Marketplace media is declared in `capell.json`:
+Screenshot contract: `docs/screenshots.json`.
 
-![Capell Inertia beta bridge marketplace artwork](docs/assets/marketplace/extension-card.jpg)
+![Illustrative inertia catalogue card](docs/screenshots/inertia-catalogue-preview.png)
 
-- Beta artwork for the headless Inertia bridge; rendered proof belongs to an installed adapter and consuming theme.
+- Illustrative inertia catalogue card (frontend, required evidence).
 
 ## Technical Shape
 
-- Service providers: `Capell\Inertia\Providers\InertiaServiceProvider`.
-- Config files: `packages/inertia/config/capell-inertia.php`.
-- Actions: `BuildInertiaPagePropsAction`, `RenderInertiaResponseAction`, `ResolveInertiaAdapterKeyAction`, `ResolveInertiaComponentNameAction`, `ResolveInertiaRootViewAction`.
-- Data objects: `InertiaAdapterData`.
-- Health checks: `Capell\Inertia\Health\InertiaHealthCheck`.
-- Blade views: `packages/inertia/resources/views/app.blade.php`.
-- Cache tags: `inertia`.
+### Service providers
+
+- `Capell\Inertia\Providers\InertiaServiceProvider`
+
+### Config files
+
+- `packages/inertia/config/capell-inertia.php`
+
+### Actions
+
+- `BuildInertiaPagePropsAction`
+- `RenderInertiaResponseAction`
+- `ResolveInertiaAdapterKeyAction`
+- `ResolveInertiaComponentNameAction`
+- `ResolveInertiaRootViewAction`
+
+### Data objects
+
+- `InertiaAdapterData`
+
+### Health checks
+
+- `Capell\Inertia\Health\InertiaHealthCheck`
+
+### Blade views
+
+- `packages/inertia/resources/views/app.blade.php`
+
+### Cache tags
+
+- `inertia`
+
 
 ## Data Model
 
@@ -56,7 +81,7 @@ This package has no schema impact. It registers runtime behaviour through `Capel
 - Required packages: `capell-app/core`, `capell-app/frontend`, `capell-app/api`.
 - Admin navigation: no admin page or resource contribution is declared.
 - Admin/editor extensions: none declared.
-- Permissions: none declared in `capell.json`.
+- Permissions: no package permission declarations or Shield gates detected; host access rules still apply.
 - Public routes: none declared.
 - Database changes: no package migrations declared.
 - Config: `config/capell-inertia.php`.
@@ -82,8 +107,7 @@ This package has no schema impact. It registers runtime behaviour through `Capel
 ## Quick Start
 
 1. Install the package: `composer require capell-app/inertia`.
-2. Review `config/capell-inertia.php` before enabling the package.
-3. Verify the package provider and manifest contributions are registered in the host app.
+2. Open `/screenshot-fixtures/catalogue/inertia/inertia-catalogue-preview` and confirm the public output renders without admin state.
 
 ## Next Steps
 
