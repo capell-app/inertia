@@ -1,7 +1,3 @@
-# Capell Inertia
-
-<!-- prettier-ignore-start -->
-
 ## What it does
 
 Capell Inertia lets your site run Inertia-powered themes, which feel more like an app than ordinary pages.
@@ -18,9 +14,3 @@ In the smooth, app-like behaviour of Inertia themes; there is no separate screen
 
 - Install this only if you use an Inertia-powered theme.
 - It also needs a framework component pack (React or Vue) to match your theme.
-
----
-
-For developers: see the [README](../README.md).
-
-<!-- prettier-ignore-end -->
