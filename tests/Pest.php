@@ -6,4 +6,4 @@ use Capell\Inertia\Tests\InertiaTestCase;
 
 require_once __DIR__ . '/InertiaTestCase.php';
 
-pest()->extend(InertiaTestCase::class)->group('inertia')->in(__DIR__);
+pest()->extend(InertiaTestCase::class)->group('inertia')->in('.');
