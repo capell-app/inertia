@@ -113,7 +113,13 @@
     "marketplace": {
         "summary": "Connect Capell public rendering to Inertia adapters with one root view, middleware stack, safe runtime props, and an adapter registry for package-owned Vue or React frontends.",
         "description": "Registers the Inertia renderer, root view, middleware, sanitized public runtime props, sanitized render configuration, adapter readiness diagnostics, and adapter registry for Capell frontend runtimes.",
-        "screenshots": [],
+        "screenshots": [
+            {
+                "path": "docs/assets/marketplace/extension-card.jpg",
+                "alt": "Capell Inertia beta bridge marketplace artwork",
+                "caption": "Beta artwork for the headless Inertia bridge; rendered proof belongs to an installed adapter and consuming theme."
+            }
+        ],
         "categories": ["frontend", "developer-tools"]
     }
 }
