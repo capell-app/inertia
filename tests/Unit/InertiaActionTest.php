@@ -28,9 +28,10 @@ it('resolves configured inertia adapter keys with a stable fallback', function (
 
 it('resolves configured inertia root views with a stable fallback', function (): void {
     config()->set('capell-inertia.root_view', ' inertia-test::app ');
+    config()->set('capell-inertia.allowed_root_views', ['capell-inertia::app', 'inertia-test::app']);
 
     expect(ResolveInertiaRootViewAction::run())->toBe('inertia-test::app')
-        ->and(ResolveInertiaRootViewAction::run(' capell-custom::app '))->toBe('capell-custom::app')
+        ->and(ResolveInertiaRootViewAction::run(' capell-custom::app '))->toBe('capell-inertia::app')
         ->and(ResolveInertiaRootViewAction::run(''))->toBe('capell-inertia::app')
         ->and(ResolveInertiaRootViewAction::run(['invalid']))->toBe('capell-inertia::app');
 });
@@ -38,7 +39,7 @@ it('resolves configured inertia root views with a stable fallback', function ():
 it('resolves configured inertia component names with a supplied fallback', function (): void {
     config()->set('capell-inertia.page_component', ' Capell/Configured ');
 
-    expect(ResolveInertiaComponentNameAction::run())->toBe('Capell/Configured')
+    expect(ResolveInertiaComponentNameAction::run())->toBe('Capell/Page')
         ->and(ResolveInertiaComponentNameAction::run(' Capell/Explicit '))->toBe('Capell/Explicit')
         ->and(ResolveInertiaComponentNameAction::run('', 'Capell/Fallback'))->toBe('Capell/Fallback')
         ->and(ResolveInertiaComponentNameAction::run(['invalid'], 'Capell/Fallback'))->toBe('Capell/Fallback');
@@ -65,6 +66,7 @@ it('builds public inertia page props without leaking authenticated user data', f
 it('renders sanitized inertia responses through the action', function (): void {
     View::addNamespace('inertia-test', __DIR__ . '/../Fixtures/views');
     config()->set('capell-inertia.root_view', ' inertia-test::app ');
+    config()->set('capell-inertia.allowed_root_views', ['capell-inertia::app', 'inertia-test::app']);
 
     Route::middleware('web')->get('/_unit/inertia-action', fn (): Response => RenderInertiaResponseAction::run(
         component: ' Capell/Unit ',

@@ -25,6 +25,12 @@ final class ResolveInertiaRootViewAction
 
         $rootView = trim($rootView);
 
-        return $rootView !== '' ? $rootView : self::DefaultRootView;
+        $allowedRootViews = config('capell-inertia.allowed_root_views', [self::DefaultRootView]);
+
+        return $rootView !== ''
+            && is_array($allowedRootViews)
+            && in_array($rootView, $allowedRootViews, true)
+                ? $rootView
+                : self::DefaultRootView;
     }
 }

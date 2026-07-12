@@ -26,7 +26,7 @@ final class CapellInertiaResponseRenderer implements FrontendResponseRenderer
         }
 
         return RenderInertiaResponseAction::run(
-            config('capell-inertia.page_component'),
+            null,
             BuildInertiaPagePropsAction::run($context),
             $context->status,
         );

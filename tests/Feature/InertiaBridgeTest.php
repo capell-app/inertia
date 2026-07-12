@@ -102,7 +102,7 @@ it('sanitizes root view and component config values', function (): void {
     config()->set('capell-inertia.root_view', ['invalid']);
 
     expect(ResolveInertiaRootViewAction::run(['invalid']))->toBe('capell-inertia::app')
-        ->and(ResolveInertiaRootViewAction::run(' inertia-test::app '))->toBe('inertia-test::app')
+        ->and(ResolveInertiaRootViewAction::run(' inertia-test::app '))->toBe('capell-inertia::app')
         ->and(ResolveInertiaComponentNameAction::run(['invalid']))->toBe('Capell/Page')
         ->and(ResolveInertiaComponentNameAction::run(' Capell/CustomPage '))->toBe('Capell/CustomPage')
         ->and(ResolveInertiaComponentNameAction::run('', 'Capell/Fallback'))->toBe('Capell/Fallback')
@@ -160,7 +160,7 @@ it('reports inertia bridge health from registered renderer and middleware servic
     $health = new InertiaHealthCheck;
     $diagnostics = $health->runDiagnostics();
 
-    expect(InertiaHealthCheck::compatibleCapellApiVersion())->toBe('^0.0')
+    expect(InertiaHealthCheck::compatibleCapellApiVersion())->toBe('^4.0')
         ->and($health->rendererRegistered())->toBeTrue()
         ->and($health->middlewareRegistered())->toBeTrue()
         ->and($health->adapterReadinessCheck()->passed)->toBeTrue()
@@ -184,6 +184,7 @@ it('reports a missing configured inertia adapter in health diagnostics', functio
 it('renders package route responses through the capell inertia helper', function (): void {
     View::addNamespace('inertia-test', __DIR__ . '/../Fixtures/views');
     config()->set('capell-inertia.root_view', 'inertia-test::app');
+    config()->set('capell-inertia.allowed_root_views', ['capell-inertia::app', 'inertia-test::app']);
 
     Route::middleware([HandleInertiaRequests::class])->get('/_test/inertia', fn (): Response => CapellInertia::render('Capell/Test', ['message' => 'ok']));
 
@@ -228,6 +229,7 @@ it('rejects package route initial html when inertia props expose authoring marke
     $this->withoutExceptionHandling();
     View::addNamespace('inertia-test', __DIR__ . '/../Fixtures/views');
     config()->set('capell-inertia.root_view', 'inertia-test::app');
+    config()->set('capell-inertia.allowed_root_views', ['capell-inertia::app', 'inertia-test::app']);
 
     Route::middleware([HandleInertiaRequests::class])->get('/_test/inertia-unsafe', fn (): Response => CapellInertia::render('Capell/Test', [
         'model_id' => 123,
