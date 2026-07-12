@@ -2,9 +2,9 @@
 
 <!-- prettier-ignore-start -->
 
-## What This Extension Adds
+## What This Plugin Adds
 
-Capell Inertia is an **Available**, **No schema impact** Capell extension in the **Capell Frontend** product group. It ships as `capell-app/inertia` and extends these surfaces: frontend.
+Capell Inertia is an **Available**, **No schema impact** Capell plugin in the **Capell Frontend** product group. It ships as `capell-app/inertia` and extends these surfaces: frontend.
 
 Shared Inertia runtime bridge for Capell public pages, package-owned frontend routes, and adapter-driven themes, with sanitized adapter, root-view, and component configuration.
 
@@ -27,13 +27,11 @@ Status details:
 
 ## Screens And Workflow
 
-Docs gap: add `docs/screenshots.json` before promoting this package with visual workflow claims.
+Marketplace media is declared in `capell.json`:
 
-- Admin index screen if the package has a Filament resource.
-- Create/edit screen if editors create records.
-- Settings/configuration screen when settings exist.
-- Frontend output when the package renders public pages.
-- Package detail or install intent screen when marketplace-owned.
+![Capell Inertia beta bridge marketplace artwork](docs/assets/marketplace/extension-card.jpg)
+
+- Beta artwork for the headless Inertia bridge; rendered proof belongs to an installed adapter and consuming theme.
 
 ## Technical Shape
 
