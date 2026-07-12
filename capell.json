@@ -4,7 +4,7 @@
     "slug": "inertia",
     "displayName": "Capell Inertia",
     "kind": "plugin",
-    "capellApiVersion": "^0.0",
+    "capellApiVersion": "^4.0",
     "version": "0.0.x-dev",
     "description": "Shared Inertia runtime bridge for Capell public pages, package-owned frontend routes, and adapter-driven themes, with sanitized adapter, root-view, and component configuration.",
     "product": {
