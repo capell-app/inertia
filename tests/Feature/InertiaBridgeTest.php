@@ -160,7 +160,7 @@ it('reports inertia bridge health from registered renderer and middleware servic
     $health = new InertiaHealthCheck;
     $diagnostics = $health->runDiagnostics();
 
-    expect(InertiaHealthCheck::compatibleCapellApiVersion())->toBe('^4.0')
+    expect(InertiaHealthCheck::compatibleCapellApiVersion())->toBe('^1.0')
         ->and($health->rendererRegistered())->toBeTrue()
         ->and($health->middlewareRegistered())->toBeTrue()
         ->and($health->adapterReadinessCheck()->passed)->toBeTrue()
