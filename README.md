@@ -2,9 +2,9 @@
 
 <!-- prettier-ignore-start -->
 
-## What This Extension Adds
+## What This Plugin Adds
 
-Capell Inertia is an **Available**, **No schema impact** Capell extension in the **Capell Frontend** product group. It ships as `capell-app/inertia` and extends these surfaces: frontend.
+Capell Inertia is an **Available**, **No schema impact** Capell plugin in the **Capell Frontend** product group. It ships as `capell-app/inertia` and extends these surfaces: frontend.
 
 Shared Inertia runtime bridge for Capell public pages, package-owned frontend routes, and adapter-driven themes, with sanitized adapter, root-view, and component configuration.
 
