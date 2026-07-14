@@ -6,9 +6,11 @@
 
 Capell Inertia is an **Available**, **No schema impact** Capell plugin in the **Capell Frontend** product group. It ships as `capell-app/inertia` and extends these surfaces: frontend.
 
-Shared Inertia runtime bridge for Capell public pages, package-owned frontend routes, and adapter-driven themes, with sanitized adapter, root-view, and component configuration.
+Capell Inertia connects public page resolution to Inertia responses through a registered client adapter.
 
-After install, the package affects public rendering, public routes, or frontend runtime behaviour.
+It adds no admin screen. When an Inertia theme is active, public pages use the configured root view, component name, and adapter.
+
+Evidence: [`src/Providers/InertiaServiceProvider.php`](src/Providers/InertiaServiceProvider.php), [`src/Rendering/CapellInertiaResponseRenderer.php`](src/Rendering/CapellInertiaResponseRenderer.php), [`tests/Feature/InertiaBridgeTest.php`](tests/Feature/InertiaBridgeTest.php), [`src/Actions/ResolveInertiaRootViewAction.php`](src/Actions/ResolveInertiaRootViewAction.php), [`src/Actions/ResolveInertiaComponentNameAction.php`](src/Actions/ResolveInertiaComponentNameAction.php), [`src/Actions/ResolveInertiaAdapterKeyAction.php`](src/Actions/ResolveInertiaAdapterKeyAction.php).
 
 Status details:
 
@@ -21,9 +23,11 @@ Status details:
 
 ## Why It Matters
 
-**For developers:** The package gives developers package-owned service providers, Actions, Data objects, and Blade views instead of pushing this behaviour into core or application code.
+**For developers:** The adapter registry and typed Actions centralize page props, component resolution, and response rendering for Inertia themes.
 
-**For teams:** Connect Capell public rendering to Inertia adapters with one root view, middleware stack, safe runtime props, and an adapter registry for package-owned Vue or React frontends.
+**For teams:** Teams can use React or Vue Inertia themes while keeping the normal Capell content workflow.
+
+Evidence: [`src/Support/InertiaAdapterRegistry.php`](src/Support/InertiaAdapterRegistry.php), [`src/Actions/BuildInertiaPagePropsAction.php`](src/Actions/BuildInertiaPagePropsAction.php), [`src/Actions/RenderInertiaResponseAction.php`](src/Actions/RenderInertiaResponseAction.php), [`tests/Unit/InertiaActionTest.php`](tests/Unit/InertiaActionTest.php), [`docs/overview.admin.md`](docs/overview.admin.md), [`src/Support/CapellInertiaManager.php`](src/Support/CapellInertiaManager.php), [`tests/Feature/InertiaBridgeTest.php`](tests/Feature/InertiaBridgeTest.php).
 
 ## Screens And Workflow
 
@@ -45,25 +49,28 @@ Marketplace media is declared in `capell.json`:
 
 ## Data Model
 
-This package has no schema impact. It does not declare package-owned migrations or required tables.
-
-Docs gap: document extension points here if the package delegates persistence to a host package.
+This package has no schema impact. It registers runtime behaviour through `Capell\Inertia\Providers\InertiaServiceProvider` while persistence remains with Capell core or required packages.
 
 ## Install Impact
 
-- Admin navigation: no admin surface declared.
+- Required packages: `capell-app/core`, `capell-app/frontend`, `capell-app/api`.
+- Admin navigation: no admin page or resource contribution is declared.
+- Admin/editor extensions: none declared.
 - Permissions: none declared in `capell.json`.
-- Public routes: none detected in package route files.
+- Public routes: none declared.
 - Database changes: no package migrations declared.
+- Config: `config/capell-inertia.php`.
 - Settings: no package settings declared.
-- Queues or schedules: none detected in standard package paths.
+- Queues or schedules: none declared.
 - Cache tags: `inertia`.
 - Commands: none declared.
 
 ## Common Pitfalls
 
+- Keep required Capell packages on compatible v4 releases: `capell-app/core`, `capell-app/frontend`, `capell-app/api`.
+- Review package configuration before production-like verification: `config/capell-inertia.php`.
 - Keep public Blade and cached HTML free of authoring markers, model IDs, permissions, signed editor URLs, and lazy database queries.
-- Keep `composer.json`, `composer.local.json`, `capell.json`, docs, screenshots, and tests aligned when the package surface changes.
+- Custom write integrations must preserve invalidation for `inertia` cache tags.
 
 ## Troubleshooting
 
@@ -75,13 +82,15 @@ Docs gap: document extension points here if the package delegates persistence to
 ## Quick Start
 
 1. Install the package: `composer require capell-app/inertia`.
-2. Run the required setup: no package migrations are declared; clear cached config and routes if the host app uses caches.
-3. Verify the package provider is registered and the related frontend, command, or extension point is active.
+2. Review `config/capell-inertia.php` before enabling the package.
+3. Verify the package provider and manifest contributions are registered in the host app.
 
 ## Next Steps
 
 - [Package docs](docs/README.md)
 - [Overview](docs/overview.md)
+- Configuration files: [`config/capell-inertia.php`](config/capell-inertia.php).
+- [Troubleshooting](#troubleshooting)
 - [Screenshot contract](docs/screenshots.json)
 - [Marketplace assets](docs/assets/marketplace/)
 - [Capell content language plan](../../docs/CONTENT_LANGUAGE_PLAN.md)

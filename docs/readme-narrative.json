@@ -1,0 +1,37 @@
+{
+    "whatThisPluginAdds": {
+        "text": "Capell Inertia connects public page resolution to Inertia responses through a registered client adapter.",
+        "evidence": [
+            "src/Providers/InertiaServiceProvider.php",
+            "src/Rendering/CapellInertiaResponseRenderer.php",
+            "tests/Feature/InertiaBridgeTest.php"
+        ]
+    },
+    "surfaceOutcome": {
+        "text": "It adds no admin screen. When an Inertia theme is active, public pages use the configured root view, component name, and adapter.",
+        "evidence": [
+            "src/Actions/ResolveInertiaRootViewAction.php",
+            "src/Actions/ResolveInertiaComponentNameAction.php",
+            "src/Actions/ResolveInertiaAdapterKeyAction.php"
+        ]
+    },
+    "whyItMatters": {
+        "developers": {
+            "text": "The adapter registry and typed Actions centralize page props, component resolution, and response rendering for Inertia themes.",
+            "evidence": [
+                "src/Support/InertiaAdapterRegistry.php",
+                "src/Actions/BuildInertiaPagePropsAction.php",
+                "src/Actions/RenderInertiaResponseAction.php",
+                "tests/Unit/InertiaActionTest.php"
+            ]
+        },
+        "teams": {
+            "text": "Teams can use React or Vue Inertia themes while keeping the normal Capell content workflow.",
+            "evidence": [
+                "docs/overview.admin.md",
+                "src/Support/CapellInertiaManager.php",
+                "tests/Feature/InertiaBridgeTest.php"
+            ]
+        }
+    }
+}
