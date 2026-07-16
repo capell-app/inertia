@@ -13,6 +13,7 @@ use Capell\Core\Models\Page;
 use Capell\Core\Models\PageUrl;
 use Capell\Core\Models\Translation;
 use Capell\Frontend\Data\FrontendRenderContextData;
+use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 
 /**
@@ -20,6 +21,7 @@ use Lorisleiva\Actions\Concerns\AsObject;
  */
 class BuildInertiaPagePropsAction
 {
+    use AsFake;
     use AsObject;
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Capell\Inertia\Actions;
 
 use Capell\Inertia\Support\InertiaAdapterRegistry;
+use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 
 /**
@@ -12,6 +13,7 @@ use Lorisleiva\Actions\Concerns\AsObject;
  */
 final class ResolveInertiaComponentNameAction
 {
+    use AsFake;
     use AsObject;
 
     public const string DefaultPageComponent = 'Capell/Page';

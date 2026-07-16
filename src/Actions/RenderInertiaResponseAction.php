@@ -6,6 +6,7 @@ namespace Capell\Inertia\Actions;
 
 use Capell\Frontend\Actions\AssertPublicHtmlContainsNoAuthoringSurfaceAction;
 use Inertia\Inertia;
+use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class RenderInertiaResponseAction
 {
+    use AsFake;
     use AsObject;
 
     /**
