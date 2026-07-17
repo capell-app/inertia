@@ -28,7 +28,7 @@ class InertiaAdapterRegistry
     {
         $key = ResolveInertiaAdapterKeyAction::run();
 
-        return is_string($key) ? $this->get($key) : null;
+        return $this->get($key);
     }
 
     /**
