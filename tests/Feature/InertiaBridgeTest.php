@@ -193,7 +193,7 @@ it('renders package route responses through the capell inertia helper', function
         ->assertSee('data-page=', false)
         ->assertSee('Capell\\/Test', false);
 
-    get('/_test/inertia', ['X-Inertia' => 'true'])
+    get('/_test/inertia', inertiaBridgeRequestHeaders())
         ->assertOk()
         ->assertJsonPath('component', 'Capell/Test')
         ->assertJsonPath('props.message', 'ok');
@@ -206,7 +206,7 @@ it('uses sanitized root view and component values for package route responses', 
         'message' => 'ok',
     ]));
 
-    get('/_test/inertia-sanitized', ['X-Inertia' => 'true'])
+    get('/_test/inertia-sanitized', inertiaBridgeRequestHeaders())
         ->assertOk()
         ->assertJsonPath('component', 'Capell/Test')
         ->assertJsonPath('props.message', 'ok');
@@ -219,7 +219,7 @@ it('applies optional response status through the shared inertia response rendere
         'message' => 'accepted',
     ], 202));
 
-    get('/_test/inertia-status', ['X-Inertia' => 'true'])
+    get('/_test/inertia-status', inertiaBridgeRequestHeaders())
         ->assertStatus(202)
         ->assertJsonPath('component', 'Capell/Test')
         ->assertJsonPath('props.message', 'accepted');
@@ -238,6 +238,34 @@ it('rejects package route initial html when inertia props expose authoring marke
     expect(fn (): TestResponse => get('/_test/inertia-unsafe'))
         ->toThrow(RuntimeException::class, 'Public HTML contains an authoring marker');
 });
+
+/** @return array{X-Inertia: string, X-Inertia-Version: string} */
+function inertiaBridgeRequestHeaders(): array
+{
+    return [
+        'X-Inertia' => 'true',
+        'X-Inertia-Version' => inertiaBridgeAssetVersion(),
+    ];
+}
+
+function inertiaBridgeAssetVersion(): string
+{
+    $assetUrl = config('app.asset_url');
+
+    if (is_string($assetUrl) && $assetUrl !== '') {
+        return hash('xxh128', $assetUrl);
+    }
+
+    foreach ([public_path('build/manifest.json'), public_path('mix-manifest.json')] as $manifestPath) {
+        if (is_file($manifestPath)) {
+            $hash = hash_file('xxh128', $manifestPath);
+
+            return is_string($hash) ? $hash : '';
+        }
+    }
+
+    return '';
+}
 
 it('uses the capell head and inertia root components in the bridge view', function (): void {
     $view = file_get_contents(__DIR__ . '/../../resources/views/app.blade.php');
