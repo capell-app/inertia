@@ -10,8 +10,6 @@ Capell Inertia connects public page resolution to Inertia responses through a re
 
 It adds no admin screen. When an Inertia theme is active, public pages use the configured root view, component name, and adapter.
 
-Evidence: [`src/Providers/InertiaServiceProvider.php`](src/Providers/InertiaServiceProvider.php), [`src/Rendering/CapellInertiaResponseRenderer.php`](src/Rendering/CapellInertiaResponseRenderer.php), [`tests/Feature/InertiaBridgeTest.php`](tests/Feature/InertiaBridgeTest.php), [`src/Actions/ResolveInertiaRootViewAction.php`](src/Actions/ResolveInertiaRootViewAction.php), [`src/Actions/ResolveInertiaComponentNameAction.php`](src/Actions/ResolveInertiaComponentNameAction.php), [`src/Actions/ResolveInertiaAdapterKeyAction.php`](src/Actions/ResolveInertiaAdapterKeyAction.php).
-
 Status details:
 
 - Status: Available
@@ -26,8 +24,6 @@ Status details:
 **For developers:** The adapter registry and typed Actions centralize page props, component resolution, and response rendering for Inertia themes.
 
 **For teams:** Teams can use React or Vue Inertia themes while keeping the normal Capell content workflow.
-
-Evidence: [`src/Support/InertiaAdapterRegistry.php`](src/Support/InertiaAdapterRegistry.php), [`src/Actions/BuildInertiaPagePropsAction.php`](src/Actions/BuildInertiaPagePropsAction.php), [`src/Actions/RenderInertiaResponseAction.php`](src/Actions/RenderInertiaResponseAction.php), [`tests/Unit/InertiaActionTest.php`](tests/Unit/InertiaActionTest.php), [`docs/overview.admin.md`](docs/overview.admin.md), [`src/Support/CapellInertiaManager.php`](src/Support/CapellInertiaManager.php), [`tests/Feature/InertiaBridgeTest.php`](tests/Feature/InertiaBridgeTest.php).
 
 ## Screens And Workflow
 
@@ -107,7 +103,7 @@ This package has no schema impact. It registers runtime behaviour through `Capel
 ## Quick Start
 
 1. Install the package: `composer require capell-app/inertia`.
-2. Open `/screenshot-fixtures/catalogue/inertia/inertia-catalogue-preview` and confirm the public output renders without admin state.
+2. Verify the package provider and manifest contributions are registered in the host app.
 
 ## Next Steps
 
@@ -121,6 +117,5 @@ This package has no schema impact. It registers runtime behaviour through `Capel
 - [Capell documentation design system](../../docs/DESIGN_SYSTEM.md)
 - [Capell and package ERD notes](../../docs/erd/capell-and-package-erds.md)
 - Related packages: [Api](../api/README.md), [Layout Builder](../layout-builder/README.md).
-- Focused tests: `vendor/bin/pest packages/inertia/tests --configuration=phpunit.xml`.
 
 <!-- prettier-ignore-end -->
