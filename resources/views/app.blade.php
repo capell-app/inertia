@@ -3,7 +3,6 @@
     use Capell\Frontend\Facades\Frontend;
     use Capell\Frontend\Support\Render\RenderHookRegistry;
     use Capell\Frontend\Support\Security\JsonLdScriptSanitizer;
-    use Illuminate\Support\Facades\Route;
 
     $publicRenderData ??= Frontend::getFrontendData('publicPageRenderData');
     $assetManifest ??= Frontend::getFrontendData('assetManifest');
@@ -17,10 +16,6 @@
     $siteMeta = $site?->meta ?? [];
     $metaSchema = data_get($siteMeta, 'meta_schema');
     $customMetaSchema = data_get($siteMeta, 'custom_meta_schema');
-    $beaconRouteName = config('capell-page.frontend.route_name', 'capell-frontend.beacon');
-    $usesBeacon = ($runtimeManifest?->usesBeacon ?? false)
-        && is_string($beaconRouteName)
-        && Route::has($beaconRouteName);
 @endphp
 
 @push('styles')
@@ -49,10 +44,6 @@
         <x-inertia::app />
 
         {!! app(RenderHookRegistry::class)->renderAll(RenderHookLocation::BodyEnd) !!}
-
-        @if ($usesBeacon)
-            <x-capell::page-data />
-        @endif
 
         @if ($metaSchema)
             @foreach ($metaSchema as $schema)
