@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 use Capell\Core\Enums\FrontendRuntime;
 use Capell\Core\Models\Blueprint;
+use Capell\Core\Models\Language;
+use Capell\Core\Models\Layout;
 use Capell\Core\Models\Page;
+use Capell\Core\Models\Theme;
 use Capell\Frontend\Data\FrontendRenderContextData;
 use Capell\Frontend\Support\Render\FrontendResponseRendererRegistry;
 use Capell\Frontend\Support\Routing\FrontendRouteMiddlewareRegistry;
+use Capell\Frontend\Support\State\FrontendState;
 use Capell\Inertia\Actions\BuildInertiaPagePropsAction;
 use Capell\Inertia\Actions\ResolveInertiaAdapterKeyAction;
 use Capell\Inertia\Actions\ResolveInertiaComponentNameAction;
@@ -23,6 +27,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Testing\TestResponse;
+use Inertia\Ssr\Gateway;
 
 use function Pest\Laravel\get;
 
@@ -267,10 +272,24 @@ function inertiaBridgeAssetVersion(): string
     return '';
 }
 
-it('uses the capell head and inertia root components in the bridge view', function (): void {
-    $view = file_get_contents(__DIR__ . '/../../resources/views/app.blade.php');
-
-    expect($view)->toContain('<x-capell::app.head')
-        ->and($view)->toContain('<x-inertia::head')
-        ->and($view)->toContain('<x-inertia::app');
+it('renders the bridge shell with the shared head and an Inertia mount', function (): void {
+    app()->instance(Gateway::class, new class implements Gateway
+    {
+        #[Override]
+        public function dispatch(array $page): Inertia\Ssr\Response
+        {
+            return new Inertia\Ssr\Response('<title>Inertia title</title>', '<div id="app">Bridge customer content</div>');
+        }
+    });
+    $theme = new Theme(['key' => 'default']);
+    resolve(FrontendState::class)->withTheme($theme);
+    $page = Page::factory()->withTranslations()->create();
+    resolve(FrontendState::class)->withPage($page)->withSite($page->site)->withLayout($page->layout);
+    resolve(FrontendState::class)->withLanguage(Language::factory()->english()->create());
+    $html = view('capell-inertia::app', [
+        'layout' => new Layout(['key' => 'default']),
+        'theme' => $theme,
+        'page' => ['component' => 'Capell/Page', 'props' => ['title' => 'Bridge customer content']],
+    ])->render();
+    expect($html)->toContain('<head', '<body', 'Bridge customer content', 'id="app"', 'Inertia title');
 });

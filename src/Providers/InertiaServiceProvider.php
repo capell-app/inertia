@@ -24,6 +24,7 @@ final class InertiaServiceProvider extends AbstractPackageServiceProvider
 
     public static string $packageName = 'capell-app/inertia';
 
+    #[Override]
     public function configurePackage(Package $package): void
     {
         $package
@@ -32,6 +33,7 @@ final class InertiaServiceProvider extends AbstractPackageServiceProvider
             ->hasViews(self::$name);
     }
 
+    #[Override]
     public function packageRegistered(): void
     {
         if (class_exists(LaravelInertiaServiceProvider::class) && $this->app->getProvider(LaravelInertiaServiceProvider::class) === null) {
@@ -42,16 +44,17 @@ final class InertiaServiceProvider extends AbstractPackageServiceProvider
         $this->app->singleton(InertiaAdapterRegistry::class);
     }
 
+    #[Override]
     public function packageBooted(): void
     {
         Route::aliasMiddleware('capell.inertia', HandleInertiaRequests::class);
+    }
 
-        if (! $this->isPackageInstalled()) {
-            return;
-        }
-
-        $this->registerRenderer();
+    #[Override]
+    protected function bootInstalledRuntime(): void
+    {
         $this->registerFrontendMiddleware();
+        $this->registerRenderer();
     }
 
     #[Override]
@@ -66,23 +69,17 @@ final class InertiaServiceProvider extends AbstractPackageServiceProvider
             $registry->registerClass(FrontendRuntime::Inertia, CapellInertiaResponseRenderer::class);
         };
 
-        $this->app->afterResolving(FrontendResponseRendererRegistry::class, $configure);
-
-        if ($this->app->resolved(FrontendResponseRendererRegistry::class)) {
-            $configure($this->app->make(FrontendResponseRendererRegistry::class));
-        }
+        $this->callAfterResolving(FrontendResponseRendererRegistry::class, $configure);
     }
 
     private function registerFrontendMiddleware(): void
     {
         $configure = static function (FrontendRouteMiddlewareRegistry $registry): void {
             $registry->insertAfter('web', [HandleInertiaRequests::class]);
+            // Frontend's boot callback has already built this group during late installation.
+            Route::middlewareGroup('capell-frontend', $registry->all());
         };
 
-        $this->app->afterResolving(FrontendRouteMiddlewareRegistry::class, $configure);
-
-        if ($this->app->resolved(FrontendRouteMiddlewareRegistry::class)) {
-            $configure($this->app->make(FrontendRouteMiddlewareRegistry::class));
-        }
+        $this->callAfterResolving(FrontendRouteMiddlewareRegistry::class, $configure);
     }
 }
