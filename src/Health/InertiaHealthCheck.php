@@ -54,7 +54,7 @@ final class InertiaHealthCheck implements ChecksExtensionHealth
         $adapter = resolve(InertiaAdapterRegistry::class)->active();
 
         return new DoctorCheckResultData(
-            label: 'Inertia adapter',
+            label: 'Inertia: page adapter available',
             passed: $adapter !== null,
             message: $adapter !== null
                 ? sprintf(
@@ -70,6 +70,7 @@ final class InertiaHealthCheck implements ChecksExtensionHealth
             remediation: $adapter !== null
                 ? null
                 : 'Install and boot an Inertia adapter package, or set capell-inertia.adapter to a registered adapter key.',
+            id: 'legacy.inertia.adapter',
         );
     }
 
@@ -90,7 +91,7 @@ final class InertiaHealthCheck implements ChecksExtensionHealth
         $passed = $this->rendererRegistered();
 
         return new DoctorCheckResultData(
-            label: 'Inertia renderer',
+            label: 'Inertia: page renderer available',
             passed: $passed,
             message: $passed
                 ? 'The Inertia frontend renderer is registered.'
@@ -98,6 +99,7 @@ final class InertiaHealthCheck implements ChecksExtensionHealth
             remediation: $passed
                 ? null
                 : 'Ensure the Capell Inertia service provider is loaded.',
+            id: 'legacy.inertia.renderer',
         );
     }
 
@@ -106,7 +108,7 @@ final class InertiaHealthCheck implements ChecksExtensionHealth
         $passed = $this->middlewareRegistered();
 
         return new DoctorCheckResultData(
-            label: 'Inertia middleware',
+            label: 'Inertia: request handling registered',
             passed: $passed,
             message: $passed
                 ? 'The Inertia frontend middleware is registered.'
@@ -114,6 +116,7 @@ final class InertiaHealthCheck implements ChecksExtensionHealth
             remediation: $passed
                 ? null
                 : 'Ensure the Capell Inertia service provider registers the frontend route middleware.',
+            id: 'legacy.inertia.middleware',
         );
     }
 }
