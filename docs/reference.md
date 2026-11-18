@@ -6,7 +6,7 @@ Developer reference for `capell-app/inertia`. Start with the [README](../README.
 
 ## Package Details
 
-Capell Inertia is an **Available**, **No schema impact** Capell plugin in the **Capell Frontend** product group. It ships as `capell-app/inertia` and extends these surfaces: frontend.
+Capell Inertia is an **Available** Capell extension in the **Capell Frontend** product group. It ships as `capell-app/inertia` and extends these surfaces: frontend.
 
 - Status: Available
 - Tier: core

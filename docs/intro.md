@@ -1,0 +1,5 @@
+A development team that builds in Vue or React keeps its JavaScript stack, and Capell pages reach visitors through that front end instead of the site's usual templates. This package sends them there. Editors keep working in the Capell admin and see nothing different.
+
+You pick one adapter to go with it, the Vue adapter or the React adapter. Vue is the default, and a React site sets CAPELL_INERTIA_ADAPTER to react. You also supply a theme set up to show pages through Inertia and you run the front-end build. The package itself contains no JavaScript.
+
+Each page goes to the browser with its title and content, its meta tags, its language and the layout's containers of widgets. Content, image and title widgets each carry a component name for the front end to use, and other widget types carry none. The page shell the front end mounts into must come from a short allowed list of views, and every HTML response is checked for editing leftovers before it leaves. A Diagnostics health check confirms that the page renderer, the request handling and the chosen adapter are registered.

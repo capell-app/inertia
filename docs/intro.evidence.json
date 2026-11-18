@@ -1,0 +1,76 @@
+[
+    {
+        "claim": "A development team that builds in Vue or React keeps its JavaScript stack, and Capell pages reach visitors through that front end instead of the site's usual templates.",
+        "evidence": [
+            "src/Rendering/CapellInertiaResponseRenderer.php",
+            "src/Providers/InertiaServiceProvider.php",
+            "src/Actions/RenderInertiaResponseAction.php"
+        ]
+    },
+    {
+        "claim": "Editors keep working in the Capell admin and see nothing different.",
+        "evidence": ["capell.json", "src/Providers/InertiaServiceProvider.php"]
+    },
+    {
+        "claim": "You pick one adapter to go with it, the Vue adapter or the React adapter.",
+        "evidence": [
+            "src/Support/InertiaAdapterRegistry.php",
+            "src/Actions/ResolveInertiaAdapterKeyAction.php",
+            "src/Health/InertiaHealthCheck.php"
+        ]
+    },
+    {
+        "claim": "Vue is the default, and a React site sets CAPELL_INERTIA_ADAPTER to react.",
+        "evidence": [
+            "config/capell-inertia.php",
+            "src/Actions/ResolveInertiaAdapterKeyAction.php"
+        ]
+    },
+    {
+        "claim": "You also supply a theme set up to show pages through Inertia and you run the front-end build.",
+        "evidence": [
+            "src/Rendering/CapellInertiaResponseRenderer.php",
+            "src/Providers/InertiaServiceProvider.php",
+            "src/Data/InertiaAdapterData.php"
+        ]
+    },
+    {
+        "claim": "The package itself contains no JavaScript.",
+        "evidence": ["composer.json", "resources/views/app.blade.php"]
+    },
+    {
+        "claim": "Each page goes to the browser with its title and content, its meta tags, its language and the layout's containers of widgets.",
+        "evidence": ["src/Actions/BuildInertiaPagePropsAction.php"]
+    },
+    {
+        "claim": "Content, image and title widgets each carry a component name for the front end to use, and other widget types carry none.",
+        "evidence": [
+            "src/Actions/BuildInertiaPagePropsAction.php",
+            "capell.json"
+        ]
+    },
+    {
+        "claim": "The page shell the front end mounts into must come from a short allowed list of views.",
+        "evidence": [
+            "config/capell-inertia.php",
+            "src/Actions/ResolveInertiaRootViewAction.php",
+            "src/Http/Middleware/HandleInertiaRequests.php"
+        ]
+    },
+    {
+        "claim": "Every HTML response is checked for editing leftovers before it leaves.",
+        "evidence": ["src/Actions/RenderInertiaResponseAction.php"]
+    },
+    {
+        "claim": "A Diagnostics health check confirms that the page renderer, the request handling and the chosen adapter are registered.",
+        "evidence": ["src/Health/InertiaHealthCheck.php", "capell.json"]
+    },
+    {
+        "claim": "This package sends them there.",
+        "evidence": [
+            "src/Rendering/CapellInertiaResponseRenderer.php",
+            "src/Providers/InertiaServiceProvider.php",
+            "src/Actions/RenderInertiaResponseAction.php"
+        ]
+    }
+]

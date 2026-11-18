@@ -1,6 +1,6 @@
 {
     "name": "capell-app/inertia",
-    "description": "Shared Inertia runtime bridge for Capell public pages, package-owned frontend routes, and adapter-driven themes.",
+    "description": "Server side of a Vue or React front end for Capell pages, with adapter selection and a health check.",
     "type": "library",
     "license": "proprietary",
     "require": {

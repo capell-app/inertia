@@ -6,7 +6,7 @@
     "kind": "plugin",
     "capellApiVersion": "^1.0",
     "version": "1.0.0",
-    "description": "Shared Inertia runtime bridge for Capell public pages, package-owned frontend routes, and adapter-driven themes, with sanitized adapter, root-view, and component configuration.",
+    "description": "Server side of a Vue or React front end for Capell pages, with a root view allow-list and a Diagnostics health check.",
     "product": {
         "group": "Capell Frontend",
         "tier": "core",
@@ -44,12 +44,7 @@
     },
     "settings": [],
     "permissions": [],
-    "capabilities": [
-        "inertia-runtime",
-        "inertia-frontend",
-        "sanitized-inertia-config",
-        "adapter-readiness-diagnostics"
-    ],
+    "capabilities": ["frontend-rendering"],
     "security": {
         "riskTier": "low",
         "publicSurface": {
@@ -111,29 +106,33 @@
         "privateDocsRequested": false
     },
     "marketplace": {
-        "summary": "Connect Capell public rendering to Inertia adapters with one root view, middleware stack, safe runtime props, and an adapter registry for package-owned Vue or React frontends.",
-        "description": "Registers the Inertia renderer, root view, middleware, sanitized public runtime props, sanitized render configuration, adapter readiness diagnostics, and adapter registry for Capell frontend runtimes. Install it as the requirement of an Inertia frontend; it adds no screens to the admin.",
-        "problem": "Our frontend team cannot serve Capell pages through an Inertia theme without a bridge.",
-        "outcome": "Our site can render public pages through an active Inertia theme and registered client adapter.",
+        "summary": "Hands Capell page content to a Vue or React front end, with an adapter setting, a root view allow-list and a Diagnostics check.",
+        "description": "Teams building the public site in Vue or React get each page with its title, content, meta tags, language and layout containers. Choose Vue or React with one environment setting, limit which HTML shells can be used, and confirm the setup from a Diagnostics check.",
+        "problem": "We build our front end in Vue or React and have no way to serve Capell pages through it.",
+        "outcome": "Capell pages reach your Vue or React front end while editors stay in the admin.",
         "faq": [
             {
-                "question": "When does the bridge render public pages?",
-                "answer": "When an Inertia theme is active, public pages use the configured root view, component name and adapter."
+                "question": "Will editors notice anything different in the admin?",
+                "answer": "No. Editors keep working in the Capell admin and see nothing different. Only the way pages reach visitors changes, so they arrive through your Vue or React front end."
             },
             {
-                "question": "Can teams use React or Vue themes?",
-                "answer": "Teams can use React or Vue Inertia themes while keeping the normal Capell content workflow."
+                "question": "What do I need besides this package?",
+                "answer": "One adapter, either the Vue adapter or the React adapter, a theme set up to show pages through Inertia, and your own front-end build. The package itself contains no JavaScript."
             },
             {
-                "question": "Does the bridge store page content?",
-                "answer": "It has no schema impact; persistence remains with Core or required packages."
+                "question": "Which should I choose, Vue or React?",
+                "answer": "Vue is the default. A React site changes one setting to react and installs the React adapter instead."
+            },
+            {
+                "question": "Which widgets come with a component for my front end?",
+                "answer": "Content, image and title widgets each carry a component name for the front end to use. Other widget types carry none."
             }
         ],
         "screenshots": [
             {
                 "path": "docs/assets/marketplace/extension-card.jpg",
-                "alt": "Capell Inertia beta bridge marketplace artwork",
-                "caption": "Beta artwork for the headless Inertia bridge; rendered proof belongs to an installed adapter and consuming theme."
+                "alt": "Marketplace card titled Capell Inertia with two simple page layouts beside a three-step diagram",
+                "caption": "The card that represents Capell Inertia on its Marketplace listing."
             }
         ],
         "categories": ["frontend", "developer-tools"]
