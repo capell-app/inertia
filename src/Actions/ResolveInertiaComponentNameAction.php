@@ -39,7 +39,8 @@ final class ResolveInertiaComponentNameAction
 
         $adapter = resolve(InertiaAdapterRegistry::class)->active();
 
-        return $adapter !== null && array_key_exists($component, $adapter->components)
+        // Adapters register components as key => component name, and the setting holds the name.
+        return $adapter !== null && in_array($component, $adapter->components, true)
             ? $component
             : $fallback;
     }

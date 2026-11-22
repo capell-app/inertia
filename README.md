@@ -8,14 +8,14 @@ You pick one adapter to go with it, the Vue adapter or the React adapter. Vue is
 
 Each page goes to the browser with its title and content, its meta tags, its language and the layout's containers of widgets. Content, image and title widgets each carry a component name for the front end to use, and other widget types carry none. The page shell the front end mounts into must come from a short allowed list of views, and every HTML response is checked for editing leftovers before it leaves. A Diagnostics health check confirms that the page renderer, the request handling and the chosen adapter are registered.
 
-- **Price and availability:** Check current availability and price on the [Capell Marketplace listing](https://capell.app/extensions/inertia).
-- **Licence:** Check the licence terms on the [Capell Marketplace listing](https://capell.app/extensions/inertia).
+- **Price and availability:** Check current availability and price on the [Capell Marketplace listing](https://capell.app/marketplace/extensions/inertia).
+- **Licence:** Check the licence terms on the [Capell Marketplace listing](https://capell.app/marketplace/extensions/inertia).
 - **Requires:** `PHP ^8.4`, `capell-app/api ^1.0`, `capell-app/core ^1.0.66`, `capell-app/frontend ^1.0`, `inertiajs/inertia-laravel ^3.0`, `lorisleiva/laravel-actions ^2.8`, `spatie/laravel-package-tools ^1.14.1`.
-- **Install:** `composer require capell-app/inertia`.
+- **Install:** `composer require capell-app/inertia:@beta`.
 
 ## Quick Start
 
-1. Install the package: `composer require capell-app/inertia`.
+1. Install the package: `composer require capell-app/inertia:@beta`.
 2. Verify the package provider and manifest contributions are registered in the host app.
 
 ## For Developers
@@ -30,7 +30,6 @@ The adapter registry and typed Actions centralize page props, component resoluti
 
 - Install the required Capell packages at the versions in `composer.json`: `capell-app/api ^1.0`, `capell-app/core ^1.0.66`, `capell-app/frontend ^1.0`.
 - Keep public Blade and cached HTML free of authoring markers, model IDs, permissions, signed editor URLs, and lazy database queries.
-- Custom write integrations must preserve invalidation for `inertia` cache tags.
 
 ## Screens And Workflow
 
@@ -49,7 +48,7 @@ The adapter registry and typed Actions centralize page props, component resoluti
 - Config: `config/capell-inertia.php`.
 - Settings: no package settings declared.
 - Queues or schedules: none declared.
-- Cache tags: `inertia`.
+- Cache tags: none declared.
 - Commands: none declared.
 
 ## Troubleshooting

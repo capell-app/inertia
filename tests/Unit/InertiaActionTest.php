@@ -2,12 +2,17 @@
 
 declare(strict_types=1);
 
+use Capell\Core\Models\Language;
+use Capell\Core\Models\Layout;
+use Capell\Core\Models\Page;
 use Capell\Frontend\Data\FrontendRenderContextData;
 use Capell\Inertia\Actions\BuildInertiaPagePropsAction;
 use Capell\Inertia\Actions\RenderInertiaResponseAction;
 use Capell\Inertia\Actions\ResolveInertiaAdapterKeyAction;
 use Capell\Inertia\Actions\ResolveInertiaComponentNameAction;
 use Capell\Inertia\Actions\ResolveInertiaRootViewAction;
+use Capell\Inertia\Data\InertiaAdapterData;
+use Capell\Inertia\Support\InertiaAdapterRegistry;
 use Capell\Inertia\Tests\InertiaTestCase;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -63,6 +68,27 @@ it('builds public inertia page props without leaking authenticated user data', f
         ->and(data_get($props, 'auth'))->toBeNull();
 });
 
+it('keeps the layout graph in page props within the API bounds', function (): void {
+    $page = Page::factory()->create();
+    $layout = Layout::factory()->site($page->site)->create([
+        'key' => 'bounded',
+        'containers' => ['main' => ['widgets' => []], 'sidebar' => ['widgets' => []]],
+    ]);
+    $context = new FrontendRenderContextData(
+        page: $page,
+        site: $page->site,
+        language: Language::factory()->create(),
+        layout: $layout,
+        theme: null,
+    );
+
+    expect(data_get(BuildInertiaPagePropsAction::run($context), 'page.layout.containers'))->toHaveCount(2);
+
+    config()->set('capell-api.public_pages.max_layout_containers', 1);
+
+    expect(BuildInertiaPagePropsAction::run($context)['page'])->not->toHaveKey('layout');
+});
+
 it('renders sanitized inertia responses through the action', function (): void {
     View::addNamespace('inertia-test', __DIR__ . '/../Fixtures/views');
     config()->set('capell-inertia.root_view', ' inertia-test::app ');
@@ -78,4 +104,24 @@ it('renders sanitized inertia responses through the action', function (): void {
         ->assertStatus(202)
         ->assertJsonPath('component', 'Capell/Unit')
         ->assertJsonPath('props.message', 'ok');
+});
+
+it('uses the configured page component only when the active adapter registers that component name', function (): void {
+    resolve(InertiaAdapterRegistry::class)->register(new InertiaAdapterData(
+        key: 'vue',
+        packageName: 'capell-app/inertia-vue-adapter',
+        npmDependencies: [],
+        buildPath: 'vendor/capell/inertia-vue',
+        entrypoint: 'resources/js/app.js',
+        components: ['page' => 'Capell/Page', 'landing' => 'Capell/Landing'],
+    ));
+
+    config()->set('capell-inertia.page_component', 'Capell/Landing');
+    $registered = ResolveInertiaComponentNameAction::run();
+
+    config()->set('capell-inertia.page_component', 'App/Unregistered');
+    $unregistered = ResolveInertiaComponentNameAction::run();
+
+    expect($registered)->toBe('Capell/Landing')
+        ->and($unregistered)->toBe('Capell/Page');
 });

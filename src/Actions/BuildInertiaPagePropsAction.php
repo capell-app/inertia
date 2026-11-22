@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Capell\Inertia\Actions;
 
 use Capell\Api\Actions\BuildPublicPagePayloadAction;
+use Capell\Api\Actions\ValidatePublicLayoutPayloadBoundsAction;
 use Capell\Api\Data\PublicPagePayloadOptionsData;
 use Capell\Core\Data\PublicPageFieldsData;
 use Capell\Core\Models\Language;
@@ -13,6 +14,7 @@ use Capell\Core\Models\Page;
 use Capell\Core\Models\PageUrl;
 use Capell\Core\Models\Translation;
 use Capell\Frontend\Data\FrontendRenderContextData;
+use Illuminate\Support\Facades\Log;
 use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 
@@ -33,15 +35,34 @@ class BuildInertiaPagePropsAction
         $language = $context->language instanceof Language ? $context->language : null;
         $layout = $context->layout instanceof Layout ? $context->layout : null;
 
+        $options = new PublicPagePayloadOptionsData(
+            fields: ['url', 'title', 'content', 'meta'],
+            include: $layout instanceof Layout ? ['layout'] : [],
+            containers: ['all'],
+            includeWidgetComponents: true,
+        );
+
+        // The page props are embedded in the public HTML, so the layout graph
+        // follows the same bounds as the JSON API and is left out when it exceeds them.
+        $boundsError = $layout instanceof Layout
+            ? ValidatePublicLayoutPayloadBoundsAction::run($layout, $options)
+            : null;
+
+        if (is_string($boundsError)) {
+            Log::warning('Inertia page props omitted the layout: ' . $boundsError, ['layout' => $layout?->getKey()]);
+
+            $options = new PublicPagePayloadOptionsData(
+                fields: $options->fields,
+                include: [],
+                containers: $options->containers,
+                includeWidgetComponents: $options->includeWidgetComponents,
+            );
+        }
+
         return [
             'page' => BuildPublicPagePayloadAction::run(
                 fields: $this->fields($page),
-                options: new PublicPagePayloadOptionsData(
-                    fields: ['url', 'title', 'content', 'meta'],
-                    include: $layout instanceof Layout ? ['layout'] : [],
-                    containers: ['all'],
-                    includeWidgetComponents: true,
-                ),
+                options: $options,
                 layout: $layout,
                 page: $page,
                 language: $language,

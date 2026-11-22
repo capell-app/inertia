@@ -45,10 +45,6 @@ Capell Inertia is an **Available** Capell extension in the **Capell Frontend** p
 
 - `packages/inertia/resources/views/app.blade.php`
 
-### Cache tags
-
-- `inertia`
-
 
 ## Data Model
 

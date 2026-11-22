@@ -81,7 +81,7 @@
     "performance": {
         "frontendRenderBudgetMs": 20,
         "adminQueryBudget": 0,
-        "cacheTags": ["inertia"],
+        "cacheTags": [],
         "cacheSafety": {
             "cacheable": false,
             "variesBy": ["site", "locale"],
