@@ -6,6 +6,7 @@
     "kind": "plugin",
     "capellApiVersion": "^1.0",
     "version": "1.0.0",
+    "launchStatus": "preview",
     "description": "Server side of a Vue or React front end for Capell pages, with a root view allow-list and a Diagnostics health check.",
     "product": {
         "group": "Capell Frontend",
